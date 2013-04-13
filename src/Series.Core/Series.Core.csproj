@@ -48,6 +48,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Torrents\TorrentAnalyzer.cs" />
     <Compile Include="TvShows\Episode.cs" />
+    <Compile Include="TvShows\Episodes\FilenameInfosExtractor.cs" />
     <Compile Include="TvShows\Library.cs" />
     <Compile Include="TvShows\Serie.cs" />
   </ItemGroup>

@@ -25,6 +25,7 @@ namespace Series.Core.Tests.Torrents
 
             Assert.NotNull(link.Files);
             Assert.NotEmpty(link.Files);
+            Assert.True(link.Files.All(f => f.Episode != null));
         }
     }
 }
