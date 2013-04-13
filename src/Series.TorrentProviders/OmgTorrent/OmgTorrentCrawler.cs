@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using HtmlAgilityPack;
+using Series.Core.Torrents;
 
 namespace Series.TorrentProviders.OmgTorrent
 {
@@ -37,28 +40,83 @@ namespace Series.TorrentProviders.OmgTorrent
             return urls;
         }
 
-        private static HtmlDocument GetPage(Uri url)
+        public async Task<IEnumerable<Torrent>> CollectSerieTorrents(string url)
         {
-            using (WebClient client = new WebClient())
+            List<Torrent> torrents = new List<Torrent>();
+            SeriePageExtractor extractor = new SeriePageExtractor();
+
+            var episodes = extractor.CollectSeasonsUrls(MakeUri(url))
+                .SelectMany(season => extractor.CollectEpisodesUrls(MakeUri(season)));
+            using (HttpClient client = new HttpClient())
             {
-                byte[] data = client.DownloadData(url);
-                using (MemoryStream stream = new MemoryStream(data))
+                foreach (string episode in episodes)
                 {
-                    HtmlDocument reader = new HtmlDocument();
-                    reader.Load(stream);
-                    return reader;
+                    var response = await client.GetAsync(MakeUri(episode));
+                    if (response.IsSuccessStatusCode)
+                    {
+                        torrents.Add(new Torrent
+                        {
+                            Url = response.RequestMessage.RequestUri.AbsoluteUri,
+                            Filename = response.RequestMessage.RequestUri.Segments.Last()
+                        });
+                    }
                 }
             }
+
+            return torrents;
+        }
+
+        private static HtmlDocument GetPage(Uri url)
+        {
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    byte[] data = client.DownloadData(url);
+                    using (MemoryStream stream = new MemoryStream(data))
+                    {
+                        HtmlDocument reader = new HtmlDocument();
+                        reader.Load(stream);
+                        return reader;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                // ignore
+            }
+            return null;
         }
 
         public class SeriePageExtractor
         {
+            public IEnumerable<string> CollectEpisodesUrls(Uri page)
+            {
+                List<string> urls = new List<string>();
+                string pattern = "/clic_dl.php?";
+                HtmlDocument doc = GetPage(page);
+                var links = doc.DocumentNode.SelectNodes("//a")
+                    .Select(node => WebUtility.HtmlDecode(node.Attributes["href"].Value))
+                    .Where(url => url != null && url.StartsWith(pattern))
+                    .ToList();
+
+                urls.AddRange(links);
+                return urls;
+            }
+
             public IEnumerable<string> CollectSeasonsUrls(Uri page)
             {
                 List<string> urls = new List<string>();
-                string path = page.AbsolutePath;
 
-                urls.Add(path); // saison 1, extrapolate other url and then test existence
+                Regex rexp = new Regex(@"^/series/([a-z-A-Z0-9]+)_saison_\d+_\d+\.html$");
+                string pattern = rexp.Replace(page.AbsolutePath, "/series/$1");
+                rexp = null;
+                HtmlDocument doc = GetPage(page);
+                var links = doc.DocumentNode.SelectNodes("//a")
+                    .Select(node => WebUtility.UrlDecode(node.Attributes["href"].Value))
+                    .Where(url => url != null && url.StartsWith(pattern))
+                    .ToList();
+                urls.AddRange(links);
                 return urls;
             }
         }
