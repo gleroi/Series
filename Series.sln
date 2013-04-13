@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02_Tests", "02_Tests", "{3D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Series.TorrentProviders.Tests", "tests\Series.TorrentProviders.Tests\Series.TorrentProviders.Tests.csproj", "{D5F84962-B6AD-49EB-A911-D1D469BE2ED6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Series.Core.Tests", "tests\Series.Core.Tests\Series.Core.Tests.csproj", "{DA2A6E5D-6CEB-478D-A39C-1BE55D14E46C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,11 +35,16 @@ Global
 		{D5F84962-B6AD-49EB-A911-D1D469BE2ED6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5F84962-B6AD-49EB-A911-D1D469BE2ED6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5F84962-B6AD-49EB-A911-D1D469BE2ED6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA2A6E5D-6CEB-478D-A39C-1BE55D14E46C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA2A6E5D-6CEB-478D-A39C-1BE55D14E46C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA2A6E5D-6CEB-478D-A39C-1BE55D14E46C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA2A6E5D-6CEB-478D-A39C-1BE55D14E46C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D5F84962-B6AD-49EB-A911-D1D469BE2ED6} = {3D8EB344-1971-4D09-A52F-C6F80A38C343}
+		{DA2A6E5D-6CEB-478D-A39C-1BE55D14E46C} = {3D8EB344-1971-4D09-A52F-C6F80A38C343}
 	EndGlobalSection
 EndGlobal

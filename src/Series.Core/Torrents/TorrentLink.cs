@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Series.Core.Torrents
 {
-    public class Torrent
+    public class TorrentLink
     {
-        public Torrent()
+        public TorrentLink()
         {
             this.Files = new HashSet<File>();
         }
 
         public string Filename { get; set; }
 
-        public string Url { get; set; }
+        public ICollection<File> Files { get; set; }
 
-        private ICollection<File> Files { get; set; }
+        public string Url { get; set; }
     }
 }

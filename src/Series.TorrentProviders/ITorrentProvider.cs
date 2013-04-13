@@ -9,6 +9,6 @@ namespace Series.TorrentProviders
 {
     public interface ITorrentProvider
     {
-        IEnumerable<Torrent> Search(string term);
+        IEnumerable<TorrentLink> Search(string term);
     }
 }

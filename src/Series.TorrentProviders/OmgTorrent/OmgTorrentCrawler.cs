@@ -40,9 +40,9 @@ namespace Series.TorrentProviders.OmgTorrent
             return urls;
         }
 
-        public async Task<IEnumerable<Torrent>> CollectSerieTorrents(string url)
+        public async Task<IEnumerable<TorrentLink>> CollectSerieTorrents(string url)
         {
-            List<Torrent> torrents = new List<Torrent>();
+            List<TorrentLink> torrents = new List<TorrentLink>();
             SeriePageExtractor extractor = new SeriePageExtractor();
 
             var episodes = extractor.CollectSeasonsUrls(MakeUri(url))
@@ -54,7 +54,7 @@ namespace Series.TorrentProviders.OmgTorrent
                     var response = await client.GetAsync(MakeUri(episode));
                     if (response.IsSuccessStatusCode)
                     {
-                        torrents.Add(new Torrent
+                        torrents.Add(new TorrentLink
                         {
                             Url = response.RequestMessage.RequestUri.AbsoluteUri,
                             Filename = response.RequestMessage.RequestUri.Segments.Last()

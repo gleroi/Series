@@ -17,14 +17,14 @@ namespace Series.TorrentProviders.OmgTorrent
         /// </summary>
         /// <param name="term">a term in the serie title</param>
         /// <returns></returns>
-        public IEnumerable<Torrent> Search(string term)
+        public IEnumerable<TorrentLink> Search(string term)
         {
             string searchTerm = term.ToLowerInvariant();
             OmgTorrentCrawler crawler = new OmgTorrentCrawler();
             var series = crawler.CollectSeriesUrls()
                 .Where(url => url.Contains(searchTerm));
 
-            List<Torrent> torrents = new List<Torrent>();
+            List<TorrentLink> torrents = new List<TorrentLink>();
             foreach (string url in series)
             {
                 var results = crawler.CollectSerieTorrents(url).Result;
