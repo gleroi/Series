@@ -9,9 +9,10 @@ namespace Series.Core.TvShows
     /// <summary>
     /// Tv show
     /// </summary>
-    public class Serie
+    public class Serie : WithMetadata
     {
         public Serie(string title)
+            : base()
         {
             this.Title = title;
         }
