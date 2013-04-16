@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Series.TorrentProviders.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Series.Core.Tests", "tests\Series.Core.Tests\Series.Core.Tests.csproj", "{DA2A6E5D-6CEB-478D-A39C-1BE55D14E46C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Series.Libraries", "src\Series.Libraries\Series.Libraries.csproj", "{56B9C15A-6988-4911-9148-39CC8B7CB336}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{DA2A6E5D-6CEB-478D-A39C-1BE55D14E46C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA2A6E5D-6CEB-478D-A39C-1BE55D14E46C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA2A6E5D-6CEB-478D-A39C-1BE55D14E46C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56B9C15A-6988-4911-9148-39CC8B7CB336}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56B9C15A-6988-4911-9148-39CC8B7CB336}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56B9C15A-6988-4911-9148-39CC8B7CB336}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56B9C15A-6988-4911-9148-39CC8B7CB336}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

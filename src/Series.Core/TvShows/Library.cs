@@ -8,23 +8,23 @@ namespace Series.Core.TvShows
 {
     public class Library
     {
-        private ICollection<Episode> _episodes { get; set; }
-
-        private ICollection<Serie> _series { get; set; }
-
-        public IQueryable<Episode> Episodes()
+        public Library()
         {
-            return _episodes.AsQueryable();
+            this._Series = new HashSet<Serie>();
         }
 
-        public IQueryable<Episode> Episodes(Serie serie)
+        public string PreferredLanguage { get; set; }
+
+        private ICollection<Serie> _Series { get; set; }
+
+        public void Add(Serie serie)
         {
-            return _episodes.Where(e => e.SerieId == serie.Id).AsQueryable();
+            this._Series.Add(serie);
         }
 
         public IQueryable<Serie> Series()
         {
-            return _series.AsQueryable();
+            return this._Series.AsQueryable();
         }
     }
 }

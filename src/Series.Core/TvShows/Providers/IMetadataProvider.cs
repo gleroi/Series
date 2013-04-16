@@ -8,8 +8,8 @@ namespace Series.Core.TvShows.Providers
 {
     public interface IMetadataProvider
     {
-        IEnumerable<Episode> GetEpisodes(Serie serie);
+        IEnumerable<Serie> GetSeries(string name);
 
-        IEnumerable<Serie> GetSeries();
+        void LoadEpisodes(Serie serie);
     }
 }
