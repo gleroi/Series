@@ -13,7 +13,7 @@ define(['durandal/app',
         system.debug(true);
         //>>excludeEnd("build");
 
-        app.title = 'Durandal Starter Kit';
+        app.title = 'Series';
         app.start().then(function () {
             //Replace 'viewmodels' in the moduleId with 'views' to locate the view.
             //Look for partial views in a 'views' folder in the root.
@@ -21,9 +21,7 @@ define(['durandal/app',
 
             //configure routing
             router.useConvention();
-            router.mapNav('welcome');
-            router.mapNav('flickr');
-            router.mapNav('myPage');
+            router.mapNav('series/library', null, 'Library');
 
             app.adaptToDevice();
 

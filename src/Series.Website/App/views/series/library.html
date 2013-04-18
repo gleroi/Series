@@ -1,0 +1,9 @@
+﻿<section data-bind="with: Library">
+    <h1 data-bind="html: displayName"></h1>
+    <ul data-bind="foreach: followedSeries">
+        <li>
+            <span data-bind="html: id"></span>
+            <span data-bind="html: name"></span>
+        </li>
+    </ul>
+</section>

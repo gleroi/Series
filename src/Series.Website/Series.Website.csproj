@@ -148,23 +148,17 @@
     <Content Include="App\durandal\viewModel.js" />
     <Content Include="App\durandal\viewModelBinder.js" />
     <Content Include="App\durandal\widget.js" />
-    <Content Include="App\main-built.js" />
-    <Content Include="App\main.js" />
-    <Content Include="App\viewmodels\flickr.js" />
-    <TypeScriptCompile Include="App\viewmodels\myPage.ts" />
-    <Content Include="App\viewmodels\myPage.js">
-      <DependentUpon>myPage.ts</DependentUpon>
+    <TypeScriptCompile Include="App\viewmodels\series\library.ts" />
+    <Content Include="App\views\series\library.html" />
+    <Content Include="App\viewmodels\series\library.js">
+      <DependentUpon>library.ts</DependentUpon>
     </Content>
-    <Content Include="App\viewmodels\myPage.min.js">
-      <DependentUpon>myPage.ts</DependentUpon>
+    <Content Include="App\main.js" />
+    <Content Include="App\viewmodels\series\library.min.js">
+      <DependentUpon>library.ts</DependentUpon>
     </Content>
     <Content Include="App\viewmodels\shell.js" />
-    <Content Include="App\viewmodels\welcome.js" />
-    <Content Include="App\views\detail.html" />
-    <Content Include="App\views\flickr.html" />
-    <Content Include="App\views\myPage.html" />
     <Content Include="App\views\shell.html" />
-    <Content Include="App\views\welcome.html" />
     <Content Include="Content\app.css" />
     <Content Include="Content\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap-responsive.min.css" />
