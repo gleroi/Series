@@ -1,9 +1,28 @@
-﻿<section data-bind="with: Library">
-    <h1 data-bind="html: displayName"></h1>
-    <ul data-bind="foreach: followedSeries">
-        <li>
-            <span data-bind="html: id"></span>
-            <span data-bind="html: name"></span>
-        </li>
-    </ul>
+﻿<section data-bind="with: Library" class="row-fluid">
+    <header>
+        <h1 data-bind="html: displayName" class="row-fluid"></h1>
+    </header>
+
+    <section class="row-fluid">
+        <section id="search-pane" class="span6">
+            <form class="form-search" data-bind="submit:search">
+                <input type="text" class="search-query" placeholder="Rechercher" data-bind="value: searchTerm">
+            </form>
+            <div>
+                <h4>Résultats :</h4>
+                <ul data-bind="foreach: foundedSeries">
+                    <li data-bind="html: name"></li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="library-pane" class="span3">
+            <h4>Biliothèque :</h4>
+            <ul data-bind="foreach: followedSeries">
+                <li>
+                    <span data-bind="html: name"></span>
+                </li>
+            </ul>
+        </section>
+    </section>
 </section>
