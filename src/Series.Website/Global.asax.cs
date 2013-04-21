@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using ServiceStack.WebHost.Endpoints;
 
 namespace Series.Website
 {
@@ -15,10 +16,25 @@ namespace Series.Website
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-
-            WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            new ServicesAppHost().Init();
         }
+
+        #region Services Stack
+
+        public class ServicesAppHost : AppHostBase
+        {
+            public ServicesAppHost()
+                : base("Series services stack", typeof(Series.Website.Api.HelloService.HelloService).Assembly)
+            { }
+
+            public override void Configure(Funq.Container container)
+            {
+            }
+        }
+
+        #endregion Services Stack
     }
 }
