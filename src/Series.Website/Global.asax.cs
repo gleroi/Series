@@ -24,6 +24,8 @@ namespace Series.Website
 
         #region Services Stack
 
+        private const string TVDB_API_KEY = "6DBF04CA70C63AC8";
+
         public class ServicesAppHost : AppHostBase
         {
             public ServicesAppHost()
@@ -32,6 +34,7 @@ namespace Series.Website
 
             public override void Configure(Funq.Container container)
             {
+                container.Register<Series.Core.TvShows.Providers.IMetadataProvider>(ct => new Series.Core.TvShows.Providers.TvDBProvider(TVDB_API_KEY));
             }
         }
 

@@ -12,13 +12,16 @@ namespace Series.Core.TvShows.Providers.TvDB
 {
     public class TvDBHttpClient : HttpClient
     {
-        private const string API_SERIE_BY_ID = "http://www.thetvdb.com/api/{0}/series/{1}/all/{2}.xml";
-        private const string API_SERIE_BY_NAME = "http://www.thetvdb.com/api/GetSeries.php?language={0}&seriesname={1}";
+        private const string API_SERIE_BY_ID = "/api/{0}/series/{1}/all/{2}.xml";
+        private const string API_SERIE_BY_NAME = "/api/GetSeries.php?language={0}&seriesname={1}";
+        private const string TVDB_ROOT = "http://www.thetvdb.com";
 
         public TvDBHttpClient(string apiKey, string language)
         {
             this.ApiKey = apiKey;
             this.Language = language;
+            this.Timeout = TimeSpan.FromSeconds(5);
+            this.BaseAddress = new Uri(TVDB_ROOT);
         }
 
         private string ApiKey { get; set; }
@@ -43,7 +46,7 @@ namespace Series.Core.TvShows.Providers.TvDB
             string url = String.Format(API_SERIE_BY_NAME, this.Language, showName);
             List<TvDBSerie> series = new List<TvDBSerie>();
 
-            var response = await GetAsync(url);
+            var response = await GetAsync(url, HttpCompletionOption.ResponseContentRead).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(TvDBSeriesResult));

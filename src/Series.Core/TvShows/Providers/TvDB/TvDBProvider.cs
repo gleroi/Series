@@ -24,26 +24,26 @@ namespace Series.Core.TvShows.Providers
 
         private TvDBHttpClient Client { get; set; }
 
-        public IEnumerable<Serie> GetSeries(string name)
+        public async Task<IEnumerable<Serie>> GetSeries(string name)
         {
-            var series = this.Client.GetSeries(name).Result;
+            var series = await this.Client.GetSeries(name).ConfigureAwait(false);
             List<Serie> result = new List<Serie>();
             foreach (TvDBSerie s in series)
             {
                 var r = new Serie(s.Name);
-                r.Metadatas[TVDB_ID] = r.Id;
+                r.Metadatas[TVDB_ID] = s.Id;
                 result.Add(r);
             }
             return result;
         }
 
-        public void LoadEpisodes(Serie serie)
+        public async Task LoadEpisodes(Serie serie)
         {
             object value;
             if (serie.Metadatas.TryGetValue(TVDB_ID, out value))
             {
                 int id = (int)value;
-                TvDBEpisodesResult episodes = this.Client.GetSerie(id).Result;
+                TvDBEpisodesResult episodes = await this.Client.GetSerie(id).ConfigureAwait(false);
                 foreach (TvDBEpisode ep in episodes.Episodes)
                 {
                     Episode result = new Episode()
@@ -52,7 +52,7 @@ namespace Series.Core.TvShows.Providers
                         Season = ep.Season,
                         Opus = ep.Opus
                     };
-                    serie.Add(result);
+                    serie.Episodes.Add(result);
                 }
             }
             throw new ArgumentException("This serie was not retrieved from the TvDB provider", "serie");

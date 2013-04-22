@@ -1,4 +1,6 @@
-define(["require", "exports"], function(require, exports) {
+define(["require", "exports", "services/series.search"], function(require, exports, __Series__) {
+    var Series = __Series__;
+
     (function (Library) {
         var Episode = (function () {
             function Episode(title, season, opus) {
@@ -25,14 +27,12 @@ define(["require", "exports"], function(require, exports) {
         Library.followedSeries = ko.observableArray();
         Library.foundedSeries = ko.observableArray();
         Library.searchTerm = ko.observable();
+        var searchService = new Series.Series.SearchService("/api/series/search/");
         function search() {
-            Library.foundedSeries([
-                makeSerie("Once upon a time", 15), 
-                makeSerie("The walking dead", 16), 
-                makeSerie("Misfits", 6), 
-                makeSerie("Community", 17), 
-                
-            ]);
+            var result = searchService.search(Library.searchTerm()).then(function (data) {
+                Library.foundedSeries(data);
+            });
+            Library.foundedSeries();
         }
         Library.search = search;
         function makeSerie(title, epCount) {

@@ -31,9 +31,9 @@ namespace Series.Core.TvShows
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Serie> Search(string name)
+        public async Task<IEnumerable<Serie>> Search(string name)
         {
-            return this.MetadataProvider.GetSeries(name);
+            return await this.MetadataProvider.GetSeries(name);
         }
     }
 }

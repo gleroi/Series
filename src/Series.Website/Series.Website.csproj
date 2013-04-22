@@ -143,6 +143,7 @@
     <Compile Include="Api\HelloService\Hello.cs" />
     <Compile Include="Api\HelloService\HelloResponse.cs" />
     <Compile Include="Api\HelloService\HelloService.cs" />
+    <Compile Include="Api\Series\SearchService.cs" />
     <Compile Include="App_Start\DurandalBundleConfig.cs" />
     <Compile Include="App_Start\DurandalConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -176,6 +177,13 @@
     <Content Include="App\durandal\viewModelBinder.js" />
     <Content Include="App\durandal\widget.js" />
     <TypeScriptCompile Include="App\viewmodels\series\library.ts" />
+    <TypeScriptCompile Include="App\services\series.search.ts" />
+    <Content Include="App\services\series.search.js">
+      <DependentUpon>series.search.ts</DependentUpon>
+    </Content>
+    <Content Include="App\services\series.search.min.js">
+      <DependentUpon>series.search.ts</DependentUpon>
+    </Content>
     <Content Include="App\views\series\library.html" />
     <Content Include="App\viewmodels\series\library.js">
       <DependentUpon>library.ts</DependentUpon>
@@ -238,6 +246,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Series.Core\Series.Core.csproj">
+      <Project>{9d80bf5e-c1c9-4a6b-bcaa-eed049cc18b1}</Project>
+      <Name>Series.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

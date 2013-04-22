@@ -1,4 +1,7 @@
 /// <reference path="../../typings/durandal/durandal.d.ts" />
+/// <reference path="../../services/series.search.ts" />
+
+import Series = module("services/series.search");
 
 export module Library {
 
@@ -33,13 +36,14 @@ export module Library {
     export var foundedSeries: KnockoutObservableArray = ko.observableArray();
     export var searchTerm: KnockoutObservableString = ko.observable();
 
+    var searchService: Series.Series.SearchService = new Series.Series.SearchService("/api/series/search/");
+
     export function search() {
-        foundedSeries([
-            makeSerie("Once upon a time", 15),
-            makeSerie("The walking dead", 16),
-            makeSerie("Misfits", 6),
-            makeSerie("Community", 17),
-        ]);
+        var result = searchService.search(searchTerm())
+            .then(function (data) {
+                foundedSeries(data);
+            });
+        foundedSeries();
     }
 
     function makeSerie(title: string, epCount: number): Serie {

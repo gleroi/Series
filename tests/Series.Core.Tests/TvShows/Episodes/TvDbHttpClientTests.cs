@@ -21,6 +21,7 @@ namespace Series.Core.Tests.TvShows.Episodes
             Assert.NotNull(series);
             Assert.NotEmpty(series);
             Assert.True(series.All(s => s.Name.ToLowerInvariant().Contains("californication")));
+            Assert.True(series.All(s => s.Id != 0));
         }
 
         [Fact]
