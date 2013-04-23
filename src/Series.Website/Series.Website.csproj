@@ -145,6 +145,7 @@
     <Compile Include="Api\HelloService\Hello.cs" />
     <Compile Include="Api\HelloService\HelloResponse.cs" />
     <Compile Include="Api\HelloService\HelloService.cs" />
+    <Compile Include="Api\Series\LibraryService.cs" />
     <Compile Include="Api\Series\SearchService.cs" />
     <Compile Include="App_Start\DurandalBundleConfig.cs" />
     <Compile Include="App_Start\DurandalConfig.cs" />
