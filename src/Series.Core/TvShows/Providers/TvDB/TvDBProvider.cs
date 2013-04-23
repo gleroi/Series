@@ -31,6 +31,7 @@ namespace Series.Core.TvShows.Providers
             foreach (TvDBSerie s in series)
             {
                 var r = new Serie(s.Name);
+                r.Description = s.Description;
                 r.Metadatas[TVDB_ID] = s.Id;
                 result.Add(r);
             }

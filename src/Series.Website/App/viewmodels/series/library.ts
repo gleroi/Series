@@ -1,33 +1,9 @@
 /// <reference path="../../typings/durandal/durandal.d.ts" />
 /// <reference path="../../services/series.search.ts" />
 
-import Series = module("services/series.search");
+import Services = module("services/series.search");
 
 export module Library {
-
-    class Episode {
-        public title: KnockoutObservableString = ko.observable();
-        public opus: KnockoutObservableNumber = ko.observable();
-        public season: KnockoutObservableNumber = ko.observable();
-
-        constructor (title: string, season: number, opus: number) {
-            this.title(title);
-            this.season(season);
-            this.opus(opus);
-        }
-    }
-
-    class Serie {
-        public id: KnockoutObservableNumber = ko.observable();
-        public name: KnockoutObservableString = ko.observable();
-        public episodes: KnockoutObservableArray = ko.observableArray();
-
-        constructor (id: number, name: string) {
-            this.id(id);
-            this.name(name);
-        }
-    }
-
 
     // Main library view model
 
@@ -36,7 +12,7 @@ export module Library {
     export var foundedSeries: KnockoutObservableArray = ko.observableArray();
     export var searchTerm: KnockoutObservableString = ko.observable();
 
-    var searchService: Series.Series.SearchService = new Series.Series.SearchService("/api/series/search/");
+    var searchService: Services.Series.SearchService = new Services.Series.SearchService("/api/series/search/");
 
     export function search() {
         var result = searchService.search(searchTerm())
@@ -46,11 +22,15 @@ export module Library {
         foundedSeries();
     }
 
-    function makeSerie(title: string, epCount: number): Serie {
-        var serie = new Serie(0, title);
+    export function addSerie(serie: Services.Series.Serie) {
+        followedSeries.push(serie);
+    }
+
+    function makeSerie(title: string, epCount: number): Services.Series.Serie {
+        var serie = new Services.Series.Serie(0, title);
         var result = [];
         for (var i = 1; i <= epCount; i++) {
-            var ep = new Episode(title + " " + i, 1, i);
+            var ep = new Services.Series.Episode(title + " " + i, 1, i);
             result.push(ep);
         }
         serie.episodes(result);

@@ -1,33 +1,12 @@
-define(["require", "exports", "services/series.search"], function(require, exports, __Series__) {
-    var Series = __Series__;
+define(["require", "exports", "services/series.search"], function(require, exports, __Services__) {
+    var Services = __Services__;
 
     (function (Library) {
-        var Episode = (function () {
-            function Episode(title, season, opus) {
-                this.title = ko.observable();
-                this.opus = ko.observable();
-                this.season = ko.observable();
-                this.title(title);
-                this.season(season);
-                this.opus(opus);
-            }
-            return Episode;
-        })();        
-        var Serie = (function () {
-            function Serie(id, name) {
-                this.id = ko.observable();
-                this.name = ko.observable();
-                this.episodes = ko.observableArray();
-                this.id(id);
-                this.name(name);
-            }
-            return Serie;
-        })();        
         Library.displayName = "Library";
         Library.followedSeries = ko.observableArray();
         Library.foundedSeries = ko.observableArray();
         Library.searchTerm = ko.observable();
-        var searchService = new Series.Series.SearchService("/api/series/search/");
+        var searchService = new Services.Series.SearchService("/api/series/search/");
         function search() {
             var result = searchService.search(Library.searchTerm()).then(function (data) {
                 Library.foundedSeries(data);
@@ -35,11 +14,15 @@ define(["require", "exports", "services/series.search"], function(require, expor
             Library.foundedSeries();
         }
         Library.search = search;
+        function addSerie(serie) {
+            Library.followedSeries.push(serie);
+        }
+        Library.addSerie = addSerie;
         function makeSerie(title, epCount) {
-            var serie = new Serie(0, title);
+            var serie = new Services.Series.Serie(0, title);
             var result = [];
             for(var i = 1; i <= epCount; i++) {
-                var ep = new Episode(title + " " + i, 1, i);
+                var ep = new Services.Series.Episode(title + " " + i, 1, i);
                 result.push(ep);
             }
             serie.episodes(result);
@@ -56,6 +39,5 @@ define(["require", "exports", "services/series.search"], function(require, expor
         }
         init();
     })(exports.Library || (exports.Library = {}));
-
+    var Library = exports.Library;
 })
-

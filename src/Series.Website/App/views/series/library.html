@@ -11,7 +11,16 @@
             <div>
                 <h4>Résultats :</h4>
                 <ul data-bind="foreach: foundedSeries">
-                    <li data-bind="html: name"></li>
+                    <li>
+                        <header>
+                            <span data-bind="html: name" class="lead"></span>
+                            <button data-bind="click: $root.Library.addSerie"
+                                class="btn btn-small pull-right">
+                                Ajouter <i class="icon-forward"></i>
+                            </button>
+                        </header>
+                        <p data-bind="html: description"></p>
+                    </li>
                 </ul>
             </div>
         </section>
