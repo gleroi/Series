@@ -7,8 +7,9 @@ using ServiceStack.ServiceHost;
 
 namespace Series.Website.Api.Series
 {
+    [Route("/series/library")]
     [Route("/series/library/{LibraryId}")]
-    public class Library
+    public class LibraryRequest
     {
         public int LibraryId { get; set; }
 
@@ -24,17 +25,28 @@ namespace Series.Website.Api.Series
 
     public class LibraryService
     {
-        public LibraryResponse Get(Library request)
+        public LibraryService()
+        {
+            this.Library = new Library();
+        }
+
+        private Library Library { get; set; }
+
+        public LibraryResponse Get(LibraryRequest request)
         {
             LibraryResponse response = new LibraryResponse();
-
+            response.Series = Library.Series().ToList();
             return response;
         }
 
-        public LibraryResponse Put(Library request)
+        public LibraryResponse Put(LibraryRequest request)
         {
             LibraryResponse response = new LibraryResponse();
-
+            foreach (var serie in request.SeriesToAdd)
+            {
+                Library.Add(serie);
+            }
+            response.Series = Library.Series().ToList();
             return response;
         }
     }

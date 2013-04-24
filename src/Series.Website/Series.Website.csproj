@@ -180,12 +180,18 @@
     <Content Include="App\durandal\viewModelBinder.js" />
     <Content Include="App\durandal\widget.js" />
     <TypeScriptCompile Include="App\viewmodels\series\library.ts" />
-    <TypeScriptCompile Include="App\services\series.search.ts" />
+    <TypeScriptCompile Include="App\services\series.services.ts" />
     <Content Include="App\services\series.search.js">
-      <DependentUpon>series.search.ts</DependentUpon>
+      <DependentUpon>series.services.ts</DependentUpon>
     </Content>
     <Content Include="App\services\series.search.min.js">
-      <DependentUpon>series.search.ts</DependentUpon>
+      <DependentUpon>series.services.ts</DependentUpon>
+    </Content>
+    <Content Include="App\services\series.services.js">
+      <DependentUpon>series.services.ts</DependentUpon>
+    </Content>
+    <Content Include="App\services\series.services.min.js">
+      <DependentUpon>series.services.ts</DependentUpon>
     </Content>
     <Content Include="App\views\series\library.html" />
     <Content Include="App\viewmodels\series\library.js">

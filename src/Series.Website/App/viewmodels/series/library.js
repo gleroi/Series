@@ -1,4 +1,4 @@
-define(["require", "exports", "services/series.search"], function(require, exports, __Services__) {
+define(["require", "exports", "services/series.services"], function(require, exports, __Services__) {
     var Services = __Services__;
 
     (function (Library) {
@@ -6,7 +6,7 @@ define(["require", "exports", "services/series.search"], function(require, expor
         Library.followedSeries = ko.observableArray();
         Library.foundedSeries = ko.observableArray();
         Library.searchTerm = ko.observable();
-        var searchService = new Services.Series.SearchService("/api/series/search/");
+        var searchService = new Services.Series.SearchService();
         function search() {
             var result = searchService.search(Library.searchTerm()).then(function (data) {
                 Library.foundedSeries(data);
@@ -28,16 +28,7 @@ define(["require", "exports", "services/series.search"], function(require, expor
             serie.episodes(result);
             return serie;
         }
-        function init() {
-            Library.followedSeries([
-                makeSerie("Californication", 15), 
-                makeSerie("How i met your mother", 16), 
-                makeSerie("Big Bang Theory", 6), 
-                makeSerie("Game of Throne", 17), 
-                
-            ]);
-        }
-        init();
     })(exports.Library || (exports.Library = {}));
-    var Library = exports.Library;
+
 })
+
