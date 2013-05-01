@@ -21,7 +21,7 @@ define(['durandal/app',
 
             //configure routing
             router.useConvention();
-            router.mapNav('series/library', null, 'Library');
+            router.mapNav('series/search', null, 'Search');
 
             app.adaptToDevice();
 

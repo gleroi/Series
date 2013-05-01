@@ -11,8 +11,8 @@ namespace Series.Website
         {
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                routeTemplate: "api/{controller}/{request}",
+                defaults: new { request = RouteParameter.Optional }
             );
         }
     }

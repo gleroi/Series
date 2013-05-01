@@ -12,6 +12,7 @@ namespace Series.Website
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("api2/{*pathInfo}");
             routes.IgnoreRoute("api/{*pathInfo}");
 
             routes.MapRoute(

@@ -11,10 +11,14 @@ namespace Series.Core.TvShows
     /// </summary>
     public class Serie : WithMetadata
     {
-        public Serie(string title)
-            : base()
+        public Serie()
         {
-            this.Episodes = new HashSet<Episode>();
+            this.Episodes = new List<Episode>();
+        }
+
+        public Serie(string title)
+            : this()
+        {
             this.Title = title;
         }
 
@@ -23,12 +27,12 @@ namespace Series.Core.TvShows
             get { return this.Episodes.Count; }
         }
 
-        public HashSet<Episode> Episodes { get; private set; }
+        public string Description { get; set; }
+
+        public List<Episode> Episodes { get; private set; }
 
         public int Id { get; set; }
 
         public string Title { get; set; }
-
-        public string Description { get; set; }
     }
 }

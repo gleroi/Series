@@ -20,11 +20,11 @@ define(["require", "exports"], function(require, exports) {
         var Serie = (function () {
             function Serie(id, name, description) {
                 this.id = ko.observable();
-                this.name = ko.observable();
+                this.title = ko.observable();
                 this.description = ko.observable();
                 this.episodes = ko.observableArray();
                 this.id(id);
-                this.name(name);
+                this.title(name);
                 if(description != null) {
                     this.description(description);
                 }
@@ -34,7 +34,7 @@ define(["require", "exports"], function(require, exports) {
         Series.Serie = Serie;        
         var Service = (function () {
             function Service(url) {
-                if(url.lastIndexOf("/") <= url.length) {
+                if(url.lastIndexOf("/") < (url.length - 1)) {
                     this.url = url + "/";
                 } else {
                     this.url = url;
@@ -45,11 +45,13 @@ define(["require", "exports"], function(require, exports) {
         var SearchService = (function (_super) {
             __extends(SearchService, _super);
             function SearchService() {
-                        _super.call(this, "/api/series/search/");
+                        _super.call(this, "/api/search/");
             }
             SearchService.prototype.search = function (term) {
-                var request = this.url + term;
-                return $.getJSON(request).then(function (data) {
+                var request = this.url;
+                return $.getJSON(request, {
+                    term: term
+                }).then(function (data) {
                     return ko.utils.arrayMap(data.Series, function (item) {
                         return new Serie(item.Id, item.Title, item.Description);
                     });
@@ -63,7 +65,7 @@ define(["require", "exports"], function(require, exports) {
         var LibraryService = (function (_super) {
             __extends(LibraryService, _super);
             function LibraryService() {
-                        _super.call(this, "/api/series/library/");
+                        _super.call(this, "/api/library/");
             }
             LibraryService.prototype.transformResponse = function (data) {
                 return ko.utils.arrayMap(data.Series, function (item) {
@@ -71,23 +73,31 @@ define(["require", "exports"], function(require, exports) {
                 });
             };
             LibraryService.prototype.get = function () {
+                var _this = this;
                 return $.getJSON(this.url).then(function (data) {
                     console.log(data);
-                    return this.transformResponse(data);
+                    return _this.transformResponse(data);
                 }).fail(function (data) {
                     console.error(data);
                 });
             };
             LibraryService.prototype.add = function (serie) {
-                return $.post(this.url, {
-                    data: {
-                        SeriesToAdd: [
+                var _this = this;
+                console.log(serie);
+                return $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    url: this.url,
+                    data: JSON.stringify({
+                        LibraryId: 12,
+                        Series: [
                             serie
                         ]
-                    }
+                    })
                 }).then(function (data) {
                     console.log(data);
-                    return this.transformResponse(data);
+                    return _this.transformResponse(data);
                 }).fail(function (data) {
                     console.error(data);
                 });

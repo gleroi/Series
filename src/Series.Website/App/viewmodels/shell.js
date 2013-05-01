@@ -8,7 +8,7 @@
         },
 
         activate: function () {
-            return router.activate('series/library');
+            return router.activate('series/search');
         }
     };
 });

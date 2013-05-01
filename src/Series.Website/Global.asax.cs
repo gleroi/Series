@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
-using ServiceStack.WebHost.Endpoints;
 
 namespace Series.Website
 {
@@ -13,31 +12,15 @@ namespace Series.Website
     // visit http://go.microsoft.com/?LinkId=9394801
     public class MvcApplication : System.Web.HttpApplication
     {
+        public const string TVDB_API_KEY = "6DBF04CA70C63AC8";
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
+            WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-
-            new ServicesAppHost().Init();
+            DIConfig.Register(GlobalConfiguration.Configuration);
         }
-
-        #region Services Stack
-
-        private const string TVDB_API_KEY = "6DBF04CA70C63AC8";
-
-        public class ServicesAppHost : AppHostBase
-        {
-            public ServicesAppHost()
-                : base("Series services stack", typeof(Series.Website.Api.HelloService.HelloService).Assembly)
-            { }
-
-            public override void Configure(Funq.Container container)
-            {
-                container.Register<Series.Core.TvShows.Providers.IMetadataProvider>(ct => new Series.Core.TvShows.Providers.TvDBProvider(TVDB_API_KEY));
-            }
-        }
-
-        #endregion Services Stack
     }
 }

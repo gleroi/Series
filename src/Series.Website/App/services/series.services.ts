@@ -17,13 +17,13 @@ export module Series {
 
     export class Serie {
         public id: KnockoutObservableNumber = ko.observable();
-        public name: KnockoutObservableString = ko.observable();
+        public title: KnockoutObservableString = ko.observable();
         public description: KnockoutObservableString = ko.observable();
         public episodes: KnockoutObservableArray = ko.observableArray();
 
         constructor (id: number, name: string, description?: string) {
             this.id(id);
-            this.name(name);
+            this.title(name);
             if (description != null)
                 this.description(description);
         }
@@ -33,7 +33,7 @@ export module Series {
         public url: string;
 
         constructor (url: string) {
-            if (url.lastIndexOf("/") <= url.length) {
+            if (url.lastIndexOf("/") < (url.length - 1)) {
                 this.url = url + "/";
             }
             else {
@@ -45,12 +45,12 @@ export module Series {
     export class SearchService extends Service {
 
         constructor () {
-            super("/api/series/search/");
+            super("/api/search/");
         }
 
         public search(term: string): JQueryPromise {
-            var request = this.url + term;
-            return $.getJSON(request).then(
+            var request = this.url;
+            return $.getJSON(request, { term: term }).then(
                 function (data) {
                     return ko.utils.arrayMap(data.Series, function (item) {
                         return new Serie(item.Id, item.Title, item.Description);
@@ -63,8 +63,9 @@ export module Series {
     }
 
     export class LibraryService extends Service {
+
         constructor () {
-            super("/api/series/library/");
+            super("/api/library/");
         }
 
         private transformResponse(data): Serie[] {
@@ -74,25 +75,33 @@ export module Series {
         }
 
         public get(): JQueryPromise {
-            return $.getJSON(this.url).then(
-                function (data) {
+            return $.getJSON(this.url)
+                .then((data) => {
                     console.log(data);
                     return this.transformResponse(data);
                 })
-            .fail(function (data) {
-                console.error(data);
-            });
+                .fail((data) => {
+                    console.error(data);
+                });
         }
 
         public add(serie: Serie): JQueryPromise {
-            return $.post(this.url, {
-                data: { SeriesToAdd: [serie] }
+            console.log(serie);
+            return $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                contentType: 'application/json',
+                url: this.url,
+                data: JSON.stringify({
+                    LibraryId: 12,
+                    Series: [serie]
+                })
             })
-            .then(function (data) {
+            .then((data) => {
                 console.log(data);
                 return this.transformResponse(data);
             })
-            .fail(function (data) {
+            .fail((data) => {
                 console.error(data);
             });
         }

@@ -1,30 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+using Raven.Client;
 
 namespace Series.Core.TvShows
 {
     public class Library
     {
-        public Library()
+        public Library(IDocumentSession session)
         {
-            this._Series = new HashSet<Serie>();
+            this.Session = session;
         }
 
         public string PreferredLanguage { get; set; }
 
-        private ICollection<Serie> _Series { get; set; }
+        public IDocumentSession Session { get; set; }
 
         public void Add(Serie serie)
         {
-            this._Series.Add(serie);
+            this.Session.Store(serie);
         }
 
-        public IQueryable<Serie> Series()
+        public IQueryable<Serie> All()
         {
-            return this._Series.AsQueryable();
+            return this.Session.Query<Serie>().Customize(ctx => ctx.WaitForNonStaleResults());
+        }
+
+        public void Commit()
+        {
+            this.Session.SaveChanges();
         }
     }
 }

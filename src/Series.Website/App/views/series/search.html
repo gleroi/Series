@@ -1,4 +1,4 @@
-﻿<section data-bind="with: Library">
+﻿<section data-bind="with: Search">
     <header>
         <h1 data-bind="html: displayName" class="row-fluid"></h1>
     </header>
@@ -13,8 +13,8 @@
                 <ul data-bind="foreach: foundedSeries">
                     <li>
                         <header>
-                            <span data-bind="html: name" class="lead"></span>
-                            <button data-bind="click: $root.Library.addSerie"
+                            <span data-bind="html: title" class="lead"></span>
+                            <button data-bind="click: $root.Search.addSerie"
                                 class="btn btn-small pull-right">
                                 Ajouter <i class="icon-forward"></i>
                             </button>
@@ -29,7 +29,7 @@
             <h4>Bibliothèque :</h4>
             <ul data-bind="foreach: followedSeries">
                 <li>
-                    <span data-bind="html: name"></span>
+                    <span data-bind="html: title"></span>
                 </li>
             </ul>
         </section>
