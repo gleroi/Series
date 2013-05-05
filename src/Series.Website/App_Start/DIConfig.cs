@@ -29,19 +29,12 @@ namespace Series.Website
 
         private static void RegisterTypes(ContainerBuilder builder)
         {
-            builder.RegisterType<Series.Core.TvShows.Providers.TvDBProvider>()
-                .As<Series.Core.TvShows.Providers.IMetadataProvider>()
-                .WithParameter(new TypedParameter(typeof(string), MvcApplication.TVDB_API_KEY));
+            builder.RegisterType<Series.TorrentProviders.OmgTorrent.OmgTorrentProvider>();
 
             builder.RegisterType<Series.Core.TvShows.Library>();
             builder.Register<Raven.Client.IDocumentStore>(context =>
             {
-                var store = new EmbeddableDocumentStore()
-                {
-                    DataDirectory = HttpContext.Current.Server.MapPath("~/App_Data")
-                };
-                store.Initialize();
-                return store;
+                return MvcApplication.Store;
             }).SingleInstance();
 
             builder.Register<Raven.Client.IDocumentSession>(context =>

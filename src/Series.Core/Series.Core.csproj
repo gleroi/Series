@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Atom\SerieLink.cs" />
     <Compile Include="Torrents\File.cs" />
     <Compile Include="Torrents\TorrentLink.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -59,7 +60,6 @@
     <Compile Include="TvShows\Episode.cs" />
     <Compile Include="TvShows\Episodes\FilenameInfosExtractor.cs" />
     <Compile Include="TvShows\Library.cs" />
-    <Compile Include="TvShows\LibraryBuilder.cs" />
     <Compile Include="TvShows\Providers\IMetadataProvider.cs" />
     <Compile Include="TvShows\Providers\TvDB\TvDBEpisode.cs" />
     <Compile Include="TvShows\Providers\TvDB\TvDBEpisodesResult.cs" />
@@ -68,6 +68,7 @@
     <Compile Include="TvShows\Providers\TvDB\TvDBSerie.cs" />
     <Compile Include="TvShows\Providers\TvDB\TvDBSeriesResult.cs" />
     <Compile Include="TvShows\Serie.cs" />
+    <Compile Include="TvShows\Status.cs" />
     <Compile Include="TvShows\WithMetadata.cs" />
   </ItemGroup>
   <ItemGroup>

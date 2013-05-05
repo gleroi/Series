@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using HtmlAgilityPack;
+using Series.Core.Atom;
 using Series.Core.Torrents;
 
 namespace Series.TorrentProviders.OmgTorrent
@@ -23,10 +24,10 @@ namespace Series.TorrentProviders.OmgTorrent
             return new Uri(SERIE_ROOT, url);
         }
 
-        public IEnumerable<string> CollectSeriesUrls()
+        public IEnumerable<SerieLink> CollectSeriesUrls()
         {
             HtmlDocument reader = GetPage(SERIE_ROOT);
-            List<string> urls = new List<string>();
+            List<SerieLink> urls = new List<SerieLink>();
             var nodes = reader.DocumentNode.SelectNodes("//select[@name='listeurl']");
             foreach (HtmlNode select in nodes)
             {
@@ -34,7 +35,9 @@ namespace Series.TorrentProviders.OmgTorrent
                 {
                     string url = option.Attributes["value"].Value;
                     if (!String.IsNullOrWhiteSpace(url))
-                        urls.Add(url);
+                    {
+                        urls.Add(DecodeElement(option));
+                    }
                 }
             }
             return urls;
@@ -51,13 +54,13 @@ namespace Series.TorrentProviders.OmgTorrent
             {
                 foreach (string episode in episodes)
                 {
-                    var response = await client.GetAsync(MakeUri(episode));
+                    var response = await client.GetAsync(MakeUri(episode)).ConfigureAwait(false);
                     if (response.IsSuccessStatusCode)
                     {
                         torrents.Add(new TorrentLink
                         {
                             Url = response.RequestMessage.RequestUri.AbsoluteUri,
-                            Filename = response.RequestMessage.RequestUri.Segments.Last()
+                            Id = response.RequestMessage.RequestUri.Segments.Last()
                         });
                     }
                 }
@@ -81,11 +84,22 @@ namespace Series.TorrentProviders.OmgTorrent
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // ignore
+                System.Diagnostics.Trace.TraceError(ex.ToString());
             }
             return null;
+        }
+
+        private SerieLink DecodeElement(HtmlNode option)
+        {
+            var serie = new SerieLink();
+            string url = option.Attributes["value"].Value;
+            serie.Url = MakeUri(url).AbsoluteUri;
+            serie.Title = String.IsNullOrWhiteSpace(option.InnerText) ? url : option.InnerText;
+            string id = url.Split('_').Last().Split('.').First();
+            serie.Id = "OMG_" + id;
+            return serie;
         }
 
         public class SeriePageExtractor

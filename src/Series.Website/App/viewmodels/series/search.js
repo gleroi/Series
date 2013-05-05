@@ -23,16 +23,6 @@ define(["require", "exports", "services/series.services"], function(require, exp
             });
         }
         Search.addSerie = addSerie;
-        function makeSerie(title, epCount) {
-            var serie = new Services.Series.Serie(0, title);
-            var result = [];
-            for(var i = 1; i <= epCount; i++) {
-                var ep = new Services.Series.Episode(title + " " + i, 1, i);
-                result.push(ep);
-            }
-            serie.episodes(result);
-            return serie;
-        }
         function init() {
             libraryService.get().then(function (series) {
                 console.log(series);

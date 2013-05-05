@@ -15,6 +15,8 @@ namespace Series.Core.TvShows
 
         public int Season { get; set; }
 
+        public Status Status { get; set; }
+
         public string Title { get; set; }
 
         public override bool Equals(object obj)

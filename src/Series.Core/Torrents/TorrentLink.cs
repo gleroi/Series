@@ -11,11 +11,16 @@ namespace Series.Core.Torrents
         public TorrentLink()
         {
             this.Files = new HashSet<File>();
+            this.CreatedAt = DateTime.Now;
         }
 
-        public string Filename { get; set; }
+        public DateTime CreatedAt { get; set; }
+
+        public string Filename { get { return this.Id; } }
 
         public ICollection<File> Files { get; set; }
+
+        public string Id { get; set; }
 
         public string Url { get; set; }
     }

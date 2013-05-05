@@ -13,13 +13,12 @@
                 <ul data-bind="foreach: foundedSeries">
                     <li>
                         <header>
-                            <span data-bind="html: title" class="lead"></span>
+                            <a data-bind="html: title, attr: { href: url }" class="lead"></a>
                             <button data-bind="click: $root.Search.addSerie"
                                 class="btn btn-small pull-right">
                                 Ajouter <i class="icon-forward"></i>
                             </button>
                         </header>
-                        <p data-bind="html: description"></p>
                     </li>
                 </ul>
             </div>
@@ -29,7 +28,8 @@
             <h4>Bibliothèque :</h4>
             <ul data-bind="foreach: followedSeries">
                 <li>
-                    <span data-bind="html: title"></span>
+                    <span data-bind="html: title" class="lead"></span>
+                    <span data-bind="html: id"></span>
                 </li>
             </ul>
         </section>

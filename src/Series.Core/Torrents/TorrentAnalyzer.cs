@@ -48,7 +48,9 @@ namespace Series.Core.Torrents
         {
             using (HttpClient client = new HttpClient())
             {
-                var data = client.GetByteArrayAsync(link.Url).Result;
+                var task = client.GetByteArrayAsync(link.Url);
+                task.ConfigureAwait(false);
+                var data = task.Result;
                 Torrent torrent = Torrent.Load(data);
                 return torrent;
             }

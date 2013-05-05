@@ -31,7 +31,7 @@ namespace Series.Core.TvShows.Providers.TvDB
         public async Task<TvDBEpisodesResult> GetSerie(int id)
         {
             string url = String.Format(API_SERIE_BY_ID, this.ApiKey, id, this.Language);
-            var response = await GetAsync(url);
+            var response = await GetAsync(url).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(TvDBEpisodesResult));

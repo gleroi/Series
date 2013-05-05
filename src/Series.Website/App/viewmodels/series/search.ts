@@ -7,7 +7,6 @@ import Services = module("services/series.services");
 export module Search {
 
     // Main library view model
-
     export var displayName: string = "Search new series";
     export var followedSeries: KnockoutObservableArray = ko.observableArray();
     export var foundedSeries: KnockoutObservableArray = ko.observableArray();
@@ -23,22 +22,11 @@ export module Search {
             });
     }
 
-    export function addSerie(serie: Services.Series.Serie) {
+    export function addSerie(serie: KnockoutObservableString) {
         var data = ko.mapping.toJS(serie);
         libraryService.add(data)
             .then((series) => { followedSeries(series); })
             .fail((data) => { console.error(data); });
-    }
-
-    function makeSerie(title: string, epCount: number): Services.Series.Serie {
-        var serie = new Services.Series.Serie(0, title);
-        var result = [];
-        for (var i = 1; i <= epCount; i++) {
-            var ep = new Services.Series.Episode(title + " " + i, 1, i);
-            result.push(ep);
-        }
-        serie.episodes(result);
-        return serie;
     }
 
     function init() {

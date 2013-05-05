@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Series.Core.Atom;
 using Series.Core.Torrents;
 
 namespace Series.TorrentProviders.OmgTorrent
@@ -12,6 +13,25 @@ namespace Series.TorrentProviders.OmgTorrent
     /// </summary>
     public class OmgTorrentProvider : ITorrentProvider
     {
+        public IEnumerable<SerieLink> AllSeries()
+        {
+            OmgTorrentCrawler crawler = new OmgTorrentCrawler();
+            var series = crawler.CollectSeriesUrls();
+            return series;
+        }
+
+        public IEnumerable<TorrentLink> GetTorrents(SerieLink serie)
+        {
+            List<TorrentLink> torrents = new List<TorrentLink>();
+            OmgTorrentCrawler crawler = new OmgTorrentCrawler();
+            var task = crawler.CollectSerieTorrents(serie.Url);
+            task.ConfigureAwait(false);
+            var results = task.Result;
+            if (results != null)
+                torrents.AddRange(results);
+            return torrents;
+        }
+
         /// <summary>
         /// Search torrents related to a serie containing <paramref name="term"/>
         /// </summary>
@@ -22,12 +42,14 @@ namespace Series.TorrentProviders.OmgTorrent
             string searchTerm = term.ToLowerInvariant();
             OmgTorrentCrawler crawler = new OmgTorrentCrawler();
             var series = crawler.CollectSeriesUrls()
-                .Where(url => url.Contains(searchTerm));
+                .Where(s => s.Title.Contains(searchTerm));
 
             List<TorrentLink> torrents = new List<TorrentLink>();
-            foreach (string url in series)
+            foreach (SerieLink s in series)
             {
-                var results = crawler.CollectSerieTorrents(url).Result;
+                var task = crawler.CollectSerieTorrents(s.Url);
+                task.ConfigureAwait(false);
+                var results = task.Result;
                 if (results != null)
                     torrents.AddRange(results);
             }

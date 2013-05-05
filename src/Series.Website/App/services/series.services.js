@@ -5,33 +5,15 @@ var __extends = this.__extends || function (d, b) {
 }
 define(["require", "exports"], function(require, exports) {
     (function (Series) {
-        var Episode = (function () {
-            function Episode(title, season, opus) {
-                this.title = ko.observable();
-                this.opus = ko.observable();
-                this.season = ko.observable();
-                this.title(title);
-                this.season(season);
-                this.opus(opus);
-            }
-            return Episode;
-        })();
-        Series.Episode = Episode;        
-        var Serie = (function () {
-            function Serie(id, name, description) {
+        var SerieLink = (function () {
+            function SerieLink() {
                 this.id = ko.observable();
                 this.title = ko.observable();
-                this.description = ko.observable();
-                this.episodes = ko.observableArray();
-                this.id(id);
-                this.title(name);
-                if(description != null) {
-                    this.description(description);
-                }
+                this.url = ko.observable();
             }
-            return Serie;
+            return SerieLink;
         })();
-        Series.Serie = Serie;        
+        Series.SerieLink = SerieLink;        
         var Service = (function () {
             function Service(url) {
                 if(url.lastIndexOf("/") < (url.length - 1)) {
@@ -40,6 +22,15 @@ define(["require", "exports"], function(require, exports) {
                     this.url = url;
                 }
             }
+            Service.prototype.transformResponse = function (data) {
+                return ko.utils.arrayMap(data.Series, function (item) {
+                    var s = new SerieLink();
+                    s.id(item.Id);
+                    s.title(item.Title);
+                    s.url(item.Url);
+                    return s;
+                });
+            };
             return Service;
         })();        
         var SearchService = (function (_super) {
@@ -48,13 +39,12 @@ define(["require", "exports"], function(require, exports) {
                         _super.call(this, "/api/search/");
             }
             SearchService.prototype.search = function (term) {
+                var _this = this;
                 var request = this.url;
                 return $.getJSON(request, {
                     term: term
                 }).then(function (data) {
-                    return ko.utils.arrayMap(data.Series, function (item) {
-                        return new Serie(item.Id, item.Title, item.Description);
-                    });
+                    return _this.transformResponse(data);
                 }).fail(function (data) {
                     console.error(request, data);
                 });
@@ -67,11 +57,6 @@ define(["require", "exports"], function(require, exports) {
             function LibraryService() {
                         _super.call(this, "/api/library/");
             }
-            LibraryService.prototype.transformResponse = function (data) {
-                return ko.utils.arrayMap(data.Series, function (item) {
-                    return new Serie(item.Id, item.Title, item.Description);
-                });
-            };
             LibraryService.prototype.get = function () {
                 var _this = this;
                 return $.getJSON(this.url).then(function (data) {
@@ -90,7 +75,6 @@ define(["require", "exports"], function(require, exports) {
                     contentType: 'application/json',
                     url: this.url,
                     data: JSON.stringify({
-                        LibraryId: 12,
                         Series: [
                             serie
                         ]

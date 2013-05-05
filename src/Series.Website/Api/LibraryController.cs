@@ -6,7 +6,9 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Hosting;
 using System.Web.Http;
+using Series.Core.Atom;
 using Series.Core.TvShows;
+using Series.Core.TvShows.Providers;
 
 namespace Series.Website
 {
@@ -17,6 +19,8 @@ namespace Series.Website
             this.Library = library;
         }
 
+        public IMetadataProvider MetadataProvider { get; set; }
+
         private Library Library { get; set; }
 
         // GET api/<controller>
@@ -24,7 +28,7 @@ namespace Series.Website
         {
             LibraryResponse response = new LibraryResponse();
 
-            response.Series = Library.All().ToList();
+            response.Series = Library.Series().ToList();
             return response;
         }
 
@@ -32,7 +36,6 @@ namespace Series.Website
         public LibraryResponse Post([FromBody]LibraryRequest request)
         {
             LibraryResponse response = new LibraryResponse();
-            response.LibraryId = request.LibraryId;
             if (request.Series != null)
             {
                 foreach (var serie in request.Series)
@@ -41,22 +44,18 @@ namespace Series.Website
                 }
                 this.Library.Commit();
             }
-            response.Series = Library.All().ToList();
+            response.Series = Library.Series().ToList();
             return response;
         }
     }
 
     public class LibraryRequest
     {
-        public List<Serie> Series;
-
-        public int LibraryId { get; set; }
+        public List<SerieLink> Series;
     }
 
     public class LibraryResponse
     {
-        public int LibraryId { get; set; }
-
-        public List<Serie> Series { get; set; }
+        public List<SerieLink> Series { get; set; }
     }
 }

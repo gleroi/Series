@@ -4,25 +4,29 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Series.Core.Atom;
 using Series.Core.TvShows;
 using Series.Core.TvShows.Providers;
+using Series.TorrentProviders.OmgTorrent;
 
 namespace Series.Website.Api
 {
     public class SearchController : ApiController
     {
-        public SearchController(IMetadataProvider searchProvider)
+        public SearchController(OmgTorrentProvider searchProvider)
         {
             this.SearchProvider = searchProvider;
         }
 
-        public IMetadataProvider SearchProvider { get; set; }
+        public OmgTorrentProvider SearchProvider { get; set; }
 
         public SearchResponse Get([FromUri] SearchRequest request)
         {
             SearchResponse response = new SearchResponse();
-            var task = this.SearchProvider.GetSeries(request.Term);
-            response.Series = new List<Serie>(task.Result);
+            var series = this.SearchProvider.AllSeries();
+            if (request != null & !String.IsNullOrWhiteSpace(request.Term))
+                series = series.Where(s => s.Title.Contains(request.Term));
+            response.Series = series.ToList();
             return response;
         }
     }
@@ -34,6 +38,6 @@ namespace Series.Website.Api
 
     public class SearchResponse
     {
-        public List<Serie> Series { get; set; }
+        public List<SerieLink> Series { get; set; }
     }
 }

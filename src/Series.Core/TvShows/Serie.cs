@@ -29,7 +29,7 @@ namespace Series.Core.TvShows
 
         public string Description { get; set; }
 
-        public List<Episode> Episodes { get; private set; }
+        public List<Episode> Episodes { get; set; }
 
         public int Id { get; set; }
 

@@ -41,22 +41,23 @@ namespace Series.Core.TvShows.Providers
         public async Task LoadEpisodes(Serie serie)
         {
             object value;
+            int id = -1;
             if (serie.Metadatas.TryGetValue(TVDB_ID, out value))
+                id = (int)value;
+            else
+                id = serie.Id;
+
+            TvDBEpisodesResult episodes = await this.Client.GetSerie(id).ConfigureAwait(false);
+            foreach (TvDBEpisode ep in episodes.Episodes)
             {
-                int id = (int)value;
-                TvDBEpisodesResult episodes = await this.Client.GetSerie(id).ConfigureAwait(false);
-                foreach (TvDBEpisode ep in episodes.Episodes)
+                Episode result = new Episode()
                 {
-                    Episode result = new Episode()
-                    {
-                        Title = ep.Name,
-                        Season = ep.Season,
-                        Opus = ep.Opus
-                    };
-                    serie.Episodes.Add(result);
-                }
+                    Title = ep.Name,
+                    Season = ep.Season,
+                    Opus = ep.Opus
+                };
+                serie.Episodes.Add(result);
             }
-            throw new ArgumentException("This serie was not retrieved from the TvDB provider", "serie");
         }
     }
 }

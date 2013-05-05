@@ -3,30 +3,10 @@
 
 export module Series {
 
-    export class Episode {
+    export class SerieLink { 
+        public id: KnockoutObservableString = ko.observable();
         public title: KnockoutObservableString = ko.observable();
-        public opus: KnockoutObservableNumber = ko.observable();
-        public season: KnockoutObservableNumber = ko.observable();
-
-        constructor (title: string, season: number, opus: number) {
-            this.title(title);
-            this.season(season);
-            this.opus(opus);
-        }
-    }
-
-    export class Serie {
-        public id: KnockoutObservableNumber = ko.observable();
-        public title: KnockoutObservableString = ko.observable();
-        public description: KnockoutObservableString = ko.observable();
-        public episodes: KnockoutObservableArray = ko.observableArray();
-
-        constructor (id: number, name: string, description?: string) {
-            this.id(id);
-            this.title(name);
-            if (description != null)
-                this.description(description);
-        }
+        public url: KnockoutObservableString = ko.observable();
     }
 
     class Service {
@@ -40,6 +20,16 @@ export module Series {
                 this.url = url;
             }
         }
+
+        public transformResponse(data): SerieLink[] {
+            return ko.utils.arrayMap(data.Series, function (item) {
+                var s = new SerieLink();
+                s.id(item.Id);
+                s.title(item.Title);
+                s.url(item.Url);
+                return s;
+            });
+        }
     }
 
     export class SearchService extends Service {
@@ -51,12 +41,10 @@ export module Series {
         public search(term: string): JQueryPromise {
             var request = this.url;
             return $.getJSON(request, { term: term }).then(
-                function (data) {
-                    return ko.utils.arrayMap(data.Series, function (item) {
-                        return new Serie(item.Id, item.Title, item.Description);
-                    });
+                (data) => {
+                    return this.transformResponse(data);
                 })
-                .fail(function (data) {
+                .fail((data) => {
                     console.error(request, data);
                 });
         }
@@ -66,12 +54,6 @@ export module Series {
 
         constructor () {
             super("/api/library/");
-        }
-
-        private transformResponse(data): Serie[] {
-            return ko.utils.arrayMap(data.Series, function (item) {
-                return new Serie(item.Id, item.Title, item.Description);
-            });
         }
 
         public get(): JQueryPromise {
@@ -85,7 +67,7 @@ export module Series {
                 });
         }
 
-        public add(serie: Serie): JQueryPromise {
+        public add(serie: string): JQueryPromise {
             console.log(serie);
             return $.ajax({
                 type: 'POST',
@@ -93,7 +75,6 @@ export module Series {
                 contentType: 'application/json',
                 url: this.url,
                 data: JSON.stringify({
-                    LibraryId: 12,
                     Series: [serie]
                 })
             })
