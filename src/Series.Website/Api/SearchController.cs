@@ -11,6 +11,7 @@ using Series.TorrentProviders.OmgTorrent;
 
 namespace Series.Website.Api
 {
+    [Authorize]
     public class SearchController : ApiController
     {
         public SearchController(OmgTorrentProvider searchProvider)

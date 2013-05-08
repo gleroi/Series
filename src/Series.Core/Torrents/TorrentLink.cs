@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Series.Core.TvShows;
 
 namespace Series.Core.Torrents
 {
@@ -12,6 +13,7 @@ namespace Series.Core.Torrents
         {
             this.Files = new HashSet<File>();
             this.CreatedAt = DateTime.Now;
+            this.Status = TvShows.Status.Download;
         }
 
         public DateTime CreatedAt { get; set; }
@@ -21,6 +23,10 @@ namespace Series.Core.Torrents
         public ICollection<File> Files { get; set; }
 
         public string Id { get; set; }
+
+        public string SerieLinkId { get; set; }
+
+        public Status Status { get; set; }
 
         public string Url { get; set; }
     }

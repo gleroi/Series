@@ -1,0 +1,43 @@
+﻿@model Series.Website.Models.SignInRequest
+
+<div class="container-fluid page-host">
+    <h2>Connection</h2>
+
+    @using (Html.BeginForm("SignIn", "Home", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        @Html.ValidationSummary(true)
+
+        <fieldset>
+            <legend>Authentification</legend>
+
+            <div class="control-group">
+                <div class="editor-label control-label">
+                    @Html.LabelFor(model => model.Username)
+                </div>
+                <div class="editor-field controls">
+                    @Html.EditorFor(model => model.Username)
+                    @Html.ValidationMessageFor(model => model.Username)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="editor-label control-label">
+                    @Html.LabelFor(model => model.Password)
+                </div>
+                <div class="editor-field controls">
+                    @Html.EditorFor(model => model.Password)
+                    @Html.ValidationMessageFor(model => model.Password)
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <input type="submit" value="Se connecter" class="btn " />
+                </div>
+            </div>
+        </fieldset>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

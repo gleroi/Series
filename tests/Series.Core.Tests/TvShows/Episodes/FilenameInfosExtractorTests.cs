@@ -40,6 +40,12 @@ namespace Series.Core.Tests.TvShows.Episodes
         }
 
         [Fact]
+        public void ShouldFind_SXXEXX()
+        {
+            Test("Californication.S03E04.Je.Vous.Hais.Tous.FR.DVDRip.XviD-BaLLanTeAm.avi");
+        }
+
+        [Fact]
         public void ShouldFind_sXXxXX()
         {
             Test("Californication.s03x04.Je.Vous.Hais.Tous.FR.DVDRip.XviD-BaLLanTeAm.avi");

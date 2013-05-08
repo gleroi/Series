@@ -87,4 +87,38 @@ export module Series {
             });
         }
     }
+
+    export class TorrentService extends Service {
+
+        constructor () {
+            super("/api/torrents/");
+        }
+
+        public get(): JQueryPromise {
+            var request = this.url;
+            return $.getJSON(request).then(
+                (data) => {
+                    return data;
+                })
+                .fail((data) => {
+                    console.error(request, data);
+                });
+        }
+
+        public update(torrent) {
+            var data = {
+                Id: torrent.Id,
+                Status: torrent.Status
+            };
+            console.log("update (service)", data);
+            return $.ajax({
+                type: 'PUT',
+                dataType: 'json',
+                contentType: 'application/json',
+                url: this.url,
+                data: JSON.stringify(data)
+            })
+            .fail((data) => { console.error(data); });
+        }
+    }
 }

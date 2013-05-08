@@ -28,7 +28,11 @@ namespace Series.TorrentProviders.OmgTorrent
             task.ConfigureAwait(false);
             var results = task.Result;
             if (results != null)
+            {
+                foreach (var torrent in results)
+                    torrent.SerieLinkId = serie.Id;
                 torrents.AddRange(results);
+            }
             return torrents;
         }
 

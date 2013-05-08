@@ -89,6 +89,38 @@ define(["require", "exports"], function(require, exports) {
             return LibraryService;
         })(Service);
         Series.LibraryService = LibraryService;        
+        var TorrentService = (function (_super) {
+            __extends(TorrentService, _super);
+            function TorrentService() {
+                        _super.call(this, "/api/torrents/");
+            }
+            TorrentService.prototype.get = function () {
+                var request = this.url;
+                return $.getJSON(request).then(function (data) {
+                    return data;
+                }).fail(function (data) {
+                    console.error(request, data);
+                });
+            };
+            TorrentService.prototype.update = function (torrent) {
+                var data = {
+                    Id: torrent.Id,
+                    Status: torrent.Status
+                };
+                console.log("update (service)", data);
+                return $.ajax({
+                    type: 'PUT',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    url: this.url,
+                    data: JSON.stringify(data)
+                }).fail(function (data) {
+                    console.error(data);
+                });
+            };
+            return TorrentService;
+        })(Service);
+        Series.TorrentService = TorrentService;        
     })(exports.Series || (exports.Series = {}));
 
 })

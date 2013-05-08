@@ -60,9 +60,19 @@ namespace Series.Core.TvShows
             return this.Session.Query<SerieLink>().Customize(ctx => ctx.WaitForNonStaleResults());
         }
 
+        public IEnumerable<SerieLink> Series(params string[] ids)
+        {
+            return this.Session.Load<SerieLink>(ids);
+        }
+
         public IQueryable<TorrentLink> Torrents()
         {
             return this.Session.Query<TorrentLink>();
+        }
+
+        public IEnumerable<TorrentLink> Torrents(params string[] ids)
+        {
+            return this.Session.Load<TorrentLink>(ids);
         }
     }
 }

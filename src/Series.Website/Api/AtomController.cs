@@ -12,6 +12,7 @@ using Series.Website.Services;
 
 namespace Series.Website.Api
 {
+    [AllowAnonymous]
     public class AtomController : ApiController
     {
         public AtomController(Library library)
@@ -23,7 +24,9 @@ namespace Series.Website.Api
 
         public HttpResponseMessage Get()
         {
-            TorrentsSyndicationFeed feed = new TorrentsSyndicationFeed(this.Library.Torrents());
+            var torrents = this.Library.Torrents()
+                .Where(t => t.Status != Status.Ignore);
+            TorrentsSyndicationFeed feed = new TorrentsSyndicationFeed(torrents);
             return Request.CreateResponse(HttpStatusCode.OK, feed.AsFeed(), new FeedMediaTypeFormatter(), "application/xml");
         }
     }

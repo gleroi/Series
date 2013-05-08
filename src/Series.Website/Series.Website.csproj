@@ -163,6 +163,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Api\LibraryController.cs" />
+    <Compile Include="Models\SignInRequest.cs" />
     <Compile Include="Services\TorrentsLoaderJob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\TorrentsSyndicationFeed.cs" />
@@ -191,6 +192,17 @@
     <Content Include="App\durandal\viewModel.js" />
     <Content Include="App\durandal\viewModelBinder.js" />
     <Content Include="App\durandal\widget.js" />
+    <TypeScriptCompile Include="App\viewmodels\torrents\list.ts" />
+    <Content Include="App\viewmodels\torrents\list.js">
+      <DependentUpon>list.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\torrents\list.min.js">
+      <DependentUpon>list.ts</DependentUpon>
+    </Content>
+    <Content Include="App\views\torrents\list.html" />
+    <Content Include="Views\Home\SignIn.cshtml" />
+    <Content Include="Views\Shared\Layout.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
     <TypeScriptCompile Include="App\viewmodels\series\search.ts" />
     <TypeScriptCompile Include="App\services\series.services.ts" />
     <Content Include="App\services\series.search.js">
@@ -270,7 +282,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

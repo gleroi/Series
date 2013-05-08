@@ -12,6 +12,7 @@ using Series.Core.TvShows.Providers;
 
 namespace Series.Website
 {
+    [Authorize]
     public class LibraryController : ApiController
     {
         public LibraryController(Library library)

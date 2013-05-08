@@ -25,7 +25,7 @@ namespace Series.Core.TvShows.Episodes
             Episode ep = new Episode();
             foreach (string pattern in Patterns)
             {
-                Regex rex = new Regex(pattern);
+                Regex rex = new Regex(pattern, RegexOptions.IgnoreCase);
                 if (rex.IsMatch(filename))
                 {
                     Match match = rex.Match(filename);

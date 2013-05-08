@@ -1,0 +1,24 @@
+﻿<section data-bind="with: Torrents">
+    <header>
+        <h1 data-bind="html: displayName" class="row-fluid"></h1>
+    </header>
+
+    <section class="row-fluid">
+        <ul data-bind="foreach: series">
+            <li class="row-fluid serie">
+                <div class="row-fluid">
+                    <span class="span6" data-bind="html: Title, click: toggleVisible"></span>
+                    <span class="span3">Vu?</span>
+                </div>
+                <!-- ko if: Visible -->
+                <ul data-bind="foreach: Torrents">
+                    <li class="row-fluid torrent">
+                        <span class="span6" data-bind="html: Filename"></span>
+                        <input type="checkbox" class="span3" data-bind="checked: Ignore" />
+                    </li>
+                </ul>
+                <!-- /ko -->
+            </li>
+        </ul>
+    </section>
+</section>
