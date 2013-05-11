@@ -63,7 +63,11 @@ namespace Series.Website
             var builder = TriggerBuilder.Create();
             builder
                 .StartNow()
+#if DEBUG
+                .WithCalendarIntervalSchedule(ctx => ctx.WithIntervalInMinutes(5))
+#else
                 .WithCalendarIntervalSchedule(ctx => ctx.WithIntervalInDays(1))
+#endif
                 .WithDescription("Torrent loader trigger");
             ITrigger trigger = builder.Build();
 

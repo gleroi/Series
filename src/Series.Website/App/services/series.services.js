@@ -94,9 +94,11 @@ define(["require", "exports"], function(require, exports) {
             function TorrentService() {
                         _super.call(this, "/api/torrents/");
             }
-            TorrentService.prototype.get = function () {
+            TorrentService.prototype.get = function (serieId) {
                 var request = this.url;
-                return $.getJSON(request).then(function (data) {
+                return $.getJSON(request, {
+                    serieId: serieId
+                }).then(function (data) {
                     return data;
                 }).fail(function (data) {
                     console.error(request, data);

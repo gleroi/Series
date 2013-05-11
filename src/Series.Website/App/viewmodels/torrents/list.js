@@ -5,6 +5,7 @@ define(["require", "exports", "services/series.services"], function(require, exp
         Torrents.displayName = "Torrents";
         Torrents.series = ko.observableArray();
         Torrents.torrentsService = new Services.Series.TorrentService();
+        Torrents.libraryService = new Services.Series.LibraryService();
         var Serie = (function () {
             function Serie(data) {
                 this.Id = ko.observable();
@@ -24,6 +25,9 @@ define(["require", "exports", "services/series.services"], function(require, exp
             Serie.prototype.toggleVisible = function () {
                 var self = this;
                 var last = self.Visible();
+                if(!last) {
+                    getTorrents(self);
+                }
                 self.Visible(!last);
             };
             return Serie;
@@ -52,18 +56,34 @@ define(["require", "exports", "services/series.services"], function(require, exp
             console.log("updateTorrent (vm):", data);
             Torrents.torrentsService.update(data);
         }
-        function getTorrents() {
-            Torrents.torrentsService.get().then(function (data) {
+        function getSeries() {
+            Torrents.libraryService.get().then(function (items) {
+                var results = ko.utils.arrayMap(items, function (item) {
+                    var r = new Serie(null);
+                    r.Id(item.id());
+                    r.Title(item.title());
+                    return r;
+                });
+                console.log(results);
+                Torrents.series(results);
+            }).fail(function (data) {
+                console.error("getSerie", data);
+            });
+        }
+        function getTorrents(serie) {
+            Torrents.torrentsService.get(serie.Id()).then(function (data) {
                 var results = ko.utils.arrayMap(data.Series, function (item) {
                     return new Serie(item);
                 });
-                Torrents.series(results);
+                if(results != null && results.length > 0) {
+                    serie.Torrents(results[0].Torrents());
+                }
             }).fail(function (data) {
                 console.error(data);
             });
         }
         function init() {
-            getTorrents();
+            getSeries();
         }
         init();
     })(exports.Torrents || (exports.Torrents = {}));

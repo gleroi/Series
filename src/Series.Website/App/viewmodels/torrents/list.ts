@@ -8,9 +8,10 @@ export module Torrents {
     export var displayName: string = "Torrents";
     export var series: KnockoutObservableArray = ko.observableArray();
     export var torrentsService: Services.Series.TorrentService = new Services.Series.TorrentService();
+    export var libraryService: Services.Series.LibraryService = new Services.Series.LibraryService();
 
     class Serie {
-        public Id: KnockoutObservableNumber = ko.observable();
+        public Id: KnockoutObservableString = ko.observable();
         public Title: KnockoutObservableString = ko.observable();
         public Torrents: KnockoutObservableArray = ko.observableArray();
         public Ignore: KnockoutObservableBool = ko.observable();
@@ -19,6 +20,9 @@ export module Torrents {
         public toggleVisible() {
             var self = this;
             var last = self.Visible()
+            if (!last) {
+                getTorrents(self);
+            }
             self.Visible(!last);
         }
 
@@ -33,7 +37,7 @@ export module Torrents {
     }
 
     class Torrent {
-        public Id: KnockoutObservableNumber = ko.observable();
+        public Id: KnockoutObservableString = ko.observable();
         public Filename: KnockoutObservableString = ko.observable();
         public Status: KnockoutObservableNumber = ko.observable();
         public Ignore: KnockoutObservableBool;
@@ -58,13 +62,32 @@ export module Torrents {
         torrentsService.update(data);
     }
 
-    function getTorrents() {
-        torrentsService.get()
+    function getSeries() {
+        libraryService.get()
+            .then(function(items: Services.Series.SerieLink[]) {
+                var results = ko.utils.arrayMap(items, (item: Services.Series.SerieLink) => {
+                    var r = new Serie(null);
+                    r.Id(item.id());
+                    r.Title(item.title());
+                    return r;
+                });
+                console.log(results);
+                series(results);
+            })
+            .fail(function (data) {
+                console.error("getSerie", data);
+            });
+    }
+
+    function getTorrents(serie: Serie) {
+        torrentsService.get(serie.Id())
             .then(function (data) {
                 var results = ko.utils.arrayMap(data.Series, function (item) {
                     return new Serie(item);
                 });
-                series(results);
+                if (results != null && results.length > 0) {
+                    serie.Torrents(results[0].Torrents());
+                }
             })
             .fail(function (data) {
                 console.error(data);
@@ -72,7 +95,7 @@ export module Torrents {
     }
 
     function init() {
-        getTorrents();
+        getSeries();
     }
 
     init();

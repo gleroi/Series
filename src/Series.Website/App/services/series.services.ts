@@ -32,13 +32,17 @@ export module Series {
         }
     }
 
+    interface SerieLinkPromise extends JQueryPromise {
+        then(doneCallbacks: (series: SerieLink[]) => any): JQueryPromise;
+    }
+
     export class SearchService extends Service {
 
         constructor () {
             super("/api/search/");
         }
 
-        public search(term: string): JQueryPromise {
+        public search(term: string): SerieLinkPromise {
             var request = this.url;
             return $.getJSON(request, { term: term }).then(
                 (data) => {
@@ -56,7 +60,7 @@ export module Series {
             super("/api/library/");
         }
 
-        public get(): JQueryPromise {
+        public get(): SerieLinkPromise {
             return $.getJSON(this.url)
                 .then((data) => {
                     console.log(data);
@@ -67,7 +71,7 @@ export module Series {
                 });
         }
 
-        public add(serie: string): JQueryPromise {
+        public add(serie: string): SerieLinkPromise {
             console.log(serie);
             return $.ajax({
                 type: 'POST',
@@ -94,9 +98,9 @@ export module Series {
             super("/api/torrents/");
         }
 
-        public get(): JQueryPromise {
+        public get(serieId: string): JQueryPromise {
             var request = this.url;
-            return $.getJSON(request).then(
+            return $.getJSON(request, { serieId: serieId }).then(
                 (data) => {
                     return data;
                 })

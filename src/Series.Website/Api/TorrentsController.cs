@@ -44,25 +44,20 @@ namespace Series.Website.Api
 
         public Library Library { get; set; }
 
-        public TorrentResponse Get()
+        public TorrentResponse Get(string serieId)
         {
             var response = new TorrentResponse();
-            var torrents = Library.Torrents().ToList()
-                .GroupBy(t => t.SerieLinkId);
-            var series = Library.Series(torrents.Select(g => g.Key).ToArray());
-            foreach (var group in torrents)
+            var serie = Library.Series(serieId).FirstOrDefault();
+            if (serie != null)
             {
+                var torrents = Library.Torrents(serie).OrderBy(t => t.CreatedAt).ToList();
                 var groupItem = new TorrentResponse.SerieItem();
-                groupItem.Torrents = group.OrderBy(t => t.CreatedAt).ToList();
-                groupItem.Id = group.Key;
-                var serie = series.FirstOrDefault(s => s.Id == group.Key);
-                if (serie != null)
-                    groupItem.Title = serie.Title ?? serie.Url;
-                else
-                    groupItem.Title = group.Key;
+                groupItem.Torrents = torrents;
+                groupItem.Id = serie.Id;
+                groupItem.Title = serie.Title ?? serie.Url;
                 response.Series.Add(groupItem);
+                return response;
             }
-
             return response;
         }
 

@@ -41,6 +41,7 @@ namespace Series.Core.TvShows
                 {
                     existing.Url = torrent.Url;
                     existing.Files = torrent.Files;
+                    existing.SerieLinkId = torrent.SerieLinkId;
                     this.Session.Store(existing);
                 }
                 else
@@ -63,6 +64,17 @@ namespace Series.Core.TvShows
         public IEnumerable<SerieLink> Series(params string[] ids)
         {
             return this.Session.Load<SerieLink>(ids);
+        }
+
+        public IQueryable<TorrentLink> Torrents(SerieLink serie)
+        {
+            var stats = new RavenQueryStatistics();
+            var query = this.Session.Query<TorrentLink>()
+                .Statistics(out stats)
+                .Where(t => t.SerieLinkId == serie.Id);
+            var results = query.ToList();
+            results.AddRange(query.Skip(results.Count).Take(stats.TotalResults - results.Count));
+            return results.AsQueryable();
         }
 
         public IQueryable<TorrentLink> Torrents()
