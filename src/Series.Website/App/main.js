@@ -23,6 +23,7 @@ define(['durandal/app',
             router.useConvention();
             router.mapNav('series/search', null, 'Search');
             router.mapNav('torrents/list', null, 'Torrents');
+            router.mapNav('torrents/latest', null, 'Latest');
             app.adaptToDevice();
 
             //Show the app by setting the root view model for our application with a transition.

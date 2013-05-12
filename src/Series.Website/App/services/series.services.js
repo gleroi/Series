@@ -123,6 +123,19 @@ define(["require", "exports"], function(require, exports) {
             return TorrentService;
         })(Service);
         Series.TorrentService = TorrentService;        
+        var LatestService = (function (_super) {
+            __extends(LatestService, _super);
+            function LatestService() {
+                        _super.call(this, "/api/latest/");
+            }
+            LatestService.prototype.get = function () {
+                return $.getJSON(this.url).fail(function (data) {
+                    console.error("latest.get", data);
+                });
+            };
+            return LatestService;
+        })(Service);
+        Series.LatestService = LatestService;        
     })(exports.Series || (exports.Series = {}));
 
 })

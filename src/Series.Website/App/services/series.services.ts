@@ -125,4 +125,15 @@ export module Series {
             .fail((data) => { console.error(data); });
         }
     }
+
+    export class LatestService extends Service {
+        constructor () {
+            super("/api/latest/");
+        }
+
+        public get(): JQueryPromise {
+            return $.getJSON(this.url)
+                .fail((data) => { console.error("latest.get", data); });
+        }
+    }
 }

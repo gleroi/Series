@@ -1,0 +1,14 @@
+﻿<section data-bind="with: Latest">
+    <header>
+        <h1 data-bind="html: displayName" class="row-fluid"></h1>
+    </header>
+
+    <section class="row-fluid">
+        <ul data-bind="foreach: torrents">
+            <li class="row-fluid torrent">
+                <span class="span6" data-bind="html: Filename"></span>
+                <input type="checkbox" class="span3" data-bind="checked: Ignore" />
+            </li>
+        </ul>
+    </section>
+</section>

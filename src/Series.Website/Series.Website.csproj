@@ -153,6 +153,7 @@
   <ItemGroup>
     <Compile Include="Api\AtomController.cs" />
     <Compile Include="Api\Formatters\FeedMediaTypeFormatter.cs" />
+    <Compile Include="Api\LatestController.cs" />
     <Compile Include="Api\SearchController.cs" />
     <Compile Include="Api\TorrentsController.cs" />
     <Compile Include="App_Start\DIConfig.cs" />
@@ -193,24 +194,26 @@
     <Content Include="App\durandal\viewModelBinder.js" />
     <Content Include="App\durandal\widget.js" />
     <TypeScriptCompile Include="App\viewmodels\torrents\list.ts" />
+    <TypeScriptCompile Include="App\viewmodels\torrents\latest.ts" />
+    <Content Include="App\viewmodels\torrents\latest.js">
+      <DependentUpon>latest.ts</DependentUpon>
+    </Content>
+    <Content Include="App\viewmodels\torrents\latest.min.js">
+      <DependentUpon>latest.ts</DependentUpon>
+    </Content>
     <Content Include="App\viewmodels\torrents\list.js">
       <DependentUpon>list.ts</DependentUpon>
     </Content>
     <Content Include="App\viewmodels\torrents\list.min.js">
       <DependentUpon>list.ts</DependentUpon>
     </Content>
+    <Content Include="App\views\torrents\latest.html" />
     <Content Include="App\views\torrents\list.html" />
     <Content Include="Views\Home\SignIn.cshtml" />
     <Content Include="Views\Shared\Layout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <TypeScriptCompile Include="App\viewmodels\series\search.ts" />
     <TypeScriptCompile Include="App\services\series.services.ts" />
-    <Content Include="App\services\series.search.js">
-      <DependentUpon>series.services.ts</DependentUpon>
-    </Content>
-    <Content Include="App\services\series.search.min.js">
-      <DependentUpon>series.services.ts</DependentUpon>
-    </Content>
     <Content Include="App\services\series.services.js">
       <DependentUpon>series.services.ts</DependentUpon>
     </Content>
