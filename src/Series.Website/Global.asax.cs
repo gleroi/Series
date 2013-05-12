@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -47,11 +48,40 @@ namespace Series.Website
 
         private void InitStore()
         {
+            string dataDirectory = this.Server.MapPath("~/App_Data");           
+            try
+            {
+                TryInitStore(dataDirectory);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.TraceError(ex.ToString());
+                if (RunEsentUtl(dataDirectory))
+                    TryInitStore(dataDirectory);
+            }
+        }
+
+        private void TryInitStore(string dataDirectory)
+        {
             Store = new EmbeddableDocumentStore
             {
-                DataDirectory = this.Server.MapPath("~/App_Data")
+                DataDirectory = dataDirectory
             };
             Store.Initialize();
+        }
+
+        private bool RunEsentUtl(string dataDirectory)
+        {
+            var process = new Process
+            {
+                StartInfo =
+                {
+                    FileName = "esentutl",
+                    WorkingDirectory = dataDirectory,
+                    Arguments = "/d Data",
+                }
+            };
+            return process.Start();
         }
 
         private void ScheduleJobs()
