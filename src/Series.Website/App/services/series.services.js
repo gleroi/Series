@@ -2,7 +2,7 @@ var __extends = this.__extends || function (d, b) {
     function __() { this.constructor = d; }
     __.prototype = b.prototype;
     d.prototype = new __();
-}
+};
 define(["require", "exports"], function(require, exports) {
     (function (Series) {
         var SerieLink = (function () {
@@ -32,7 +32,8 @@ define(["require", "exports"], function(require, exports) {
                 });
             };
             return Service;
-        })();        
+        })();
+        Series.Service = Service;        
         var SearchService = (function (_super) {
             __extends(SearchService, _super);
             function SearchService() {
@@ -137,6 +138,5 @@ define(["require", "exports"], function(require, exports) {
         })(Service);
         Series.LatestService = LatestService;        
     })(exports.Series || (exports.Series = {}));
-
+    var Series = exports.Series;
 })
-

@@ -39,10 +39,9 @@ export module Latest {
     function getTorrents() {
         latestService.get()
             .then((data) => {
-                var results = ko.utils.arrayMap(data, (item) => {
+                var results = ko.utils.arrayMap(data, (item: Services.Series.TorrentLink) => {
                     return new Torrent(item);
                 });
-                console.log(results);
                 torrents(results);
             });
     }

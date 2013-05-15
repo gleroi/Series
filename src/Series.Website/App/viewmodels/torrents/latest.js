@@ -35,7 +35,6 @@ define(["require", "exports", "services/series.services"], function(require, exp
                 var results = ko.utils.arrayMap(data, function (item) {
                     return new Torrent(item);
                 });
-                console.log(results);
                 Latest.torrents(results);
             });
         }
@@ -44,6 +43,5 @@ define(["require", "exports", "services/series.services"], function(require, exp
         }
         init();
     })(exports.Latest || (exports.Latest = {}));
-
+    var Latest = exports.Latest;
 })
-

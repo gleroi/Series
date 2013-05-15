@@ -9,7 +9,7 @@ export module Series {
         public url: KnockoutObservableString = ko.observable();
     }
 
-    class Service {
+    export class Service {
         public url: string;
 
         constructor (url: string) {
@@ -32,7 +32,7 @@ export module Series {
         }
     }
 
-    interface SerieLinkPromise extends JQueryPromise {
+    export interface SerieLinkPromise extends JQueryPromise {
         then(doneCallbacks: (series: SerieLink[]) => any): JQueryPromise;
     }
 
@@ -126,12 +126,26 @@ export module Series {
         }
     }
 
+    export interface TorrentLink {
+        Id: string;
+        SerieLinkId: string;
+        CreatedAt: Date;
+        Filename: string;
+        Status: number;
+        Url: string;
+    }
+
+    export interface LatestTorrentsPromise extends JQueryPromise {
+        then(doneCallbacks: (torrents: TorrentLink[]) => any): JQueryPromise;
+    }
+
+
     export class LatestService extends Service {
         constructor () {
             super("/api/latest/");
         }
 
-        public get(): JQueryPromise {
+        public get (): LatestTorrentsPromise {
             return $.getJSON(this.url)
                 .fail((data) => { console.error("latest.get", data); });
         }
