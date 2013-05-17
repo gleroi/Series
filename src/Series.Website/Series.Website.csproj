@@ -154,6 +154,7 @@
     <Compile Include="Api\AtomController.cs" />
     <Compile Include="Api\Formatters\FeedMediaTypeFormatter.cs" />
     <Compile Include="Api\LatestController.cs" />
+    <Compile Include="Api\MetadataController.cs" />
     <Compile Include="Api\SearchController.cs" />
     <Compile Include="Api\TorrentsController.cs" />
     <Compile Include="App_Start\DIConfig.cs" />
@@ -270,7 +271,9 @@
     <Content Include="App\typings\jquery\jquery.d.ts" />
     <Content Include="App\typings\knockout\knockout.d.ts" />
     <Content Include="App\typings\knockout\knockout.mapping.d.ts" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

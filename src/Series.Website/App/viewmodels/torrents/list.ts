@@ -36,7 +36,7 @@ export module Torrents {
         }
     }
 
-    class Torrent {
+    class Torrent implements Services.Series.TorrentLink {
         public Id: KnockoutObservableString = ko.observable();
         public Filename: KnockoutObservableString = ko.observable();
         public Status: KnockoutObservableNumber = ko.observable();

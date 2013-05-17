@@ -92,24 +92,34 @@ export module Series {
         }
     }
 
+    export interface SerieItem {
+        Id: string;
+        Title: string;
+        Torrents: TorrentLink[];
+    }
+
+    export interface TorrentsResponse {
+        Series: SerieItem[];
+    }
+
+    export interface TorrentsPromise extends JQueryPromise {
+        then(doneCallbacks: (response: TorrentsResponse) => any): JQueryPromise;
+    }
+
     export class TorrentService extends Service {
 
         constructor () {
             super("/api/torrents/");
         }
 
-        public get(serieId: string): JQueryPromise {
+        public get(serieId: string): TorrentsPromise {
             var request = this.url;
-            return $.getJSON(request, { serieId: serieId }).then(
-                (data) => {
-                    return data;
-                })
-                .fail((data) => {
-                    console.error(request, data);
-                });
+            return $.getJSON(request, { serieId: serieId })
+                .then((data: TorrentsResponse) => { return data; })
+                .fail((data) => { console.error(request, data); });
         }
 
-        public update(torrent) {
+        public update(torrent: TorrentLink) {
             var data = {
                 Id: torrent.Id,
                 Status: torrent.Status
